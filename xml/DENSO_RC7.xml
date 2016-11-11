@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!--
+	***** DENSO NetwoRC Provider *****
+-->
+<CRD xmlns="http://www.orin.jp/CRD/CRDSchema"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.orin.jp/CRD/CRDSchema CRDSchema.xsd">
+	<Controller name="ControllerName">
+	<!-- *** CaoProvider *** -->
+		<Variable name="ControllerName">
+			<Value type="VT_BSTR">
+				<bstrVal>NetwoRC</bstrVal>
+			</Value>
+		</Variable>
+		<Variable name="CaoProvName">
+			<Value type="VT_BSTR">
+				<bstrVal>CaoProv.DENSO.NetwoRC</bstrVal>
+			</Value>
+		</Variable>
+		<Variable name="ConnectionParam">
+			<Value type="VT_BSTR">
+				<bstrVal>Conn=%s,Timeout=%ld</bstrVal>
+			</Value>
+		</Variable>
+		<Variable name="Manufactur">
+			<Value type="VT_BSTR">
+				<bstrVal>DENSOWAVE</bstrVal>
+			</Value>
+		</Variable>
+		<Variable name="RobotName">
+			<Value type="VT_BSTR">
+				<bstrVal>VP6242E-GM</bstrVal>
+			</Value>
+		</Variable>
+		<Variable name="AxisNum">
+			<Value type="VT_I2">
+				<iVal>6</iVal>
+			</Value>
+		</Variable>
+		<Variable name="AxialType">
+			<Value type="VT_ARRAY">
+				<array type="VT_BSTR">
+					<dimension>1</dimension>
+					<arrayBound>
+						<lBound>0</lBound>
+						<elements>6</elements>
+					</arrayBound>
+					<arrayData>
+						<!-- *** 回転軸:rotation, 直動軸:linear *** -->
+						<bstrVal>rotation</bstrVal>
+						<bstrVal>rotation</bstrVal>
+						<bstrVal>rotation</bstrVal>
+						<bstrVal>rotation</bstrVal>
+						<bstrVal>rotation</bstrVal>
+						<bstrVal>rotation</bstrVal>
+					</arrayData>
+				</array>
+			</Value>
+		</Variable>
+		<Variable name="IsGripper">
+			<Value type="VT_I2">
+				<iVal>0</iVal>
+			</Value>
+		</Variable>
+	<!-- *** 未実装の関数には"NOT_IMPLEMENTED"を代入する *** -->
+	<!-- *** CommonCommand *** -->
+		<!-- *** C1.アラームクリア *** -->
+			<Variable name="C1">
+				<Value type="VT_BSTR">
+					<bstrVal>ClearError</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** C2.アラーム情報の取得 *** -->
+			<Variable name="C2">
+				<Value type="VT_BSTR">
+					<bstrVal>@ERROR_DESCRIPTION</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** C3.関節座標系の位置フィードバック情報の取得 *** -->
+			<Variable name="C3">
+				<Value type="VT_BSTR">
+					<bstrVal>@CURRENT_ANGLE</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** C4.マニピュレータ情報の取得 *** -->
+			<Variable name="C4">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** C5.関節座標系のソフトリミット値を取得 *** -->
+			<Variable name="C5">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** C6.ユニットの状態取得 *** -->
+			<Variable name="C6">
+				<Value type="VT_BSTR">
+					<bstrVal>@SERVO_ON</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** C7.全軸サーボOFF *** -->
+			<Variable name="C7">
+				<Value type="VT_BSTR">
+					<bstrVal>Motor</bstrVal>
+				</Value>
+			</Variable>
+			<Variable name="C7_Option">
+				<Value type="VT_BSTR">
+					<bstrVal>0</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** C8.全軸サーボON *** -->
+			<Variable name="C8">
+				<Value type="VT_BSTR">
+					<bstrVal>Motor</bstrVal>
+				</Value>
+			</Variable>
+			<Variable name="C8_Option">
+				<Value type="VT_BSTR">
+					<bstrVal>1</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** C9.関節座標系のソフトリミット値設定 *** -->
+			<Variable name="C9">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+	<!-- *** MiddleLevelMotionCommand *** -->
+		<!-- *** M1.グリッパを閉じる *** -->
+			<Variable name="M1">
+				<Value type="VT_BSTR">
+					<bstrVal>NOT_IMPLEMENTED</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M2.マニピュレータの設定位置を取得 *** -->
+			<Variable name="M2">
+				<Value type="VT_BSTR">
+					<bstrVal>NOT_IMPLEMENTED</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M3.直交座標系の位置フィードバック情報の取得 *** -->
+			<Variable name="M3">
+				<Value type="VT_BSTR">
+					<bstrVal>@CURRENT_POSITION</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M4.直交動作時の最大動作速度を取得 *** -->
+			<Variable name="M4">
+				<Value type="VT_BSTR">
+					<bstrVal>@SPEED</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M5.関節動作時の最大動作速度を取得 *** -->
+			<Variable name="M5">
+				<Value type="VT_BSTR">
+					<bstrVal>@SPEED</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M6.直交動作時の最小動作加速速度を取得 *** -->
+			<Variable name="M6">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M7.関節動作時の最小動作加速速度を取得 *** -->
+			<Variable name="M7">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M8.直交座標系のソフトリミット値を取得 *** -->
+			<Variable name="M8">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M9.グリッパの開閉動作 *** -->
+			<Variable name="M9">
+				<Value type="VT_BSTR">
+					<bstrVal>NOT_IMPLEMENTED</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M10.直交座標系の直線補間(絶対指令) *** -->
+			<Variable name="M10">
+				<Value type="VT_BSTR">
+					<bstrVal>P(%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%d)</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M11.直交座標系の直線補間(相対指令) *** -->
+			<Variable name="M11">
+				<Value type="VT_BSTR">
+					<bstrVal>P(%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%d)</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M12.関節座標系の直線補間(直交・絶対指令) *** -->
+			<Variable name="M12">
+				<Value type="VT_BSTR">
+					<bstrVal>P(%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%d)</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M13.関節座標系の直線補間(直交・相対指令) *** -->
+			<Variable name="M13">
+				<Value type="VT_BSTR">
+					<bstrVal>P(%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%d)</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M14.関節座標系の直線補間(関節・絶対指令) *** -->
+			<Variable name="M14">
+				<Value type="VT_BSTR">
+					<bstrVal>J(%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%.1lf)</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M15.関節座標系の直線補間(関節・相対指令) *** -->
+			<Variable name="M15">
+				<Value type="VT_BSTR">
+					<bstrVal>J(%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%.1lf)</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M16.グリッパを開く *** -->
+			<Variable name="M16">
+				<Value type="VT_BSTR">
+					<bstrVal>NOT_IMPLEMENTED</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M17.動作の一時停止 *** -->
+			<Variable name="M17">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M18.動作の再開 *** -->
+			<Variable name="M18">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M19.動作の停止 *** -->
+			<Variable name="M19">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M20.直交動作時の加速時間を設定 *** -->
+			<Variable name="M20">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M21.関節動作時の加速時間を設定 *** -->
+			<Variable name="M21">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M22.マニピュレータの設置位置を設定 *** -->
+			<Variable name="M22">
+				<Value type="VT_BSTR">
+					<bstrVal>NOT_IMPLEMENTED</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M23.制御点のフランジ面からのオフセット量を設定 *** -->
+			<Variable name="M23">
+				<Value type="VT_BSTR">
+				<bstrVal>NOT_IMPLEMENTED</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M24.直交動作時の最大動作速度を設定 *** -->
+			<Variable name="M24">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M25.関節動作時の最大動作速度を設定 *** -->
+			<Variable name="M25">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M26.直交動作時の最小動作加速時間を設定 *** -->
+			<Variable name="M26">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M27.関節動作時の最小動作加速時間を設定 *** -->
+			<Variable name="M27">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M28.直交座標系のソフトリミット値を設定 *** -->
+			<Variable name="M28">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M29.直交動作時の速度を設定 *** -->
+			<Variable name="M29">
+				<Value type="VT_BSTR">
+					<bstrVal>ExtSpeed</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M30.関節動作時の速度を設定 *** -->
+			<Variable name="M30">
+				<Value type="VT_BSTR">
+					<bstrVal>ExtSpeed</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M31.直交座標系の円弧補間(絶対指令) *** -->
+			<Variable name="M31">
+				<Value type="VT_BSTR">
+					<bstrVal>P(%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%d)</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M32.直交座標系の円弧補間(相対指令) *** -->
+			<Variable name="M32">
+				<Value type="VT_BSTR">
+					<bstrVal>P(%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%d)</bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M33.原点復帰時の位置・姿勢を設定 *** -->
+			<Variable name="M33">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M34.原点復帰時の位置・姿勢を取得 *** -->
+			<Variable name="M34">
+				<Value type="VT_BSTR">
+					<bstrVal></bstrVal>
+				</Value>
+			</Variable>
+		<!-- *** M35.原点復帰動作 *** -->
+			<Variable name="M35">
+				<Value type="VT_BSTR">
+					<bstrVal>J(%.1lf,%.1lf,%.1lf,%.1lf,%.1lf,%.1lf)</bstrVal>
+				</Value>
+			</Variable>
+	</Controller>
+</CRD>

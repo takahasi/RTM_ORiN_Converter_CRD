@@ -1,0 +1,54 @@
+# RTM_ORiN_Converter_CRD CMake config file
+#
+# This file sets the following variables:
+# RTM_ORiN_Converter_CRD_FOUND - Always TRUE.
+# RTM_ORiN_Converter_CRD_INCLUDE_DIRS - Directories containing the RTM_ORiN_Converter_CRD include files.
+# RTM_ORiN_Converter_CRD_IDL_DIRS - Directories containing the RTM_ORiN_Converter_CRD IDL files.
+# RTM_ORiN_Converter_CRD_LIBRARIES - Libraries needed to use RTM_ORiN_Converter_CRD.
+# RTM_ORiN_Converter_CRD_DEFINITIONS - Compiler flags for RTM_ORiN_Converter_CRD.
+# RTM_ORiN_Converter_CRD_VERSION - The version of RTM_ORiN_Converter_CRD found.
+# RTM_ORiN_Converter_CRD_VERSION_MAJOR - The major version of RTM_ORiN_Converter_CRD found.
+# RTM_ORiN_Converter_CRD_VERSION_MINOR - The minor version of RTM_ORiN_Converter_CRD found.
+# RTM_ORiN_Converter_CRD_VERSION_REVISION - The revision version of RTM_ORiN_Converter_CRD found.
+# RTM_ORiN_Converter_CRD_VERSION_CANDIDATE - The candidate version of RTM_ORiN_Converter_CRD found.
+
+message(STATUS "Found RTM_ORiN_Converter_CRD-@PROJECT_VERSION@")
+set(RTM_ORiN_Converter_CRD_FOUND TRUE)
+
+find_package(<dependency> REQUIRED)
+
+#set(RTM_ORiN_Converter_CRD_INCLUDE_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@"
+#    ${<dependency>_INCLUDE_DIRS}
+#    )
+#
+#set(RTM_ORiN_Converter_CRD_IDL_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@/idl")
+set(RTM_ORiN_Converter_CRD_INCLUDE_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@"
+    ${<dependency>_INCLUDE_DIRS}
+    )
+set(RTM_ORiN_Converter_CRD_IDL_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@/idl")
+
+
+if(WIN32)
+    set(RTM_ORiN_Converter_CRD_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_STATIC_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+else(WIN32)
+    set(RTM_ORiN_Converter_CRD_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_SHARED_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+endif(WIN32)
+
+set(RTM_ORiN_Converter_CRD_DEFINITIONS ${<dependency>_DEFINITIONS})
+
+set(RTM_ORiN_Converter_CRD_VERSION @PROJECT_VERSION@)
+set(RTM_ORiN_Converter_CRD_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(RTM_ORiN_Converter_CRD_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+set(RTM_ORiN_Converter_CRD_VERSION_REVISION @PROJECT_VERSION_REVISION@)
+set(RTM_ORiN_Converter_CRD_VERSION_CANDIDATE @PROJECT_VERSION_CANDIDATE@)
+
