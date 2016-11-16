@@ -40,9 +40,16 @@
 	int CFlagR;
 	int CFlagT;
 	
+	char Activated = 0;
+
 
 HRESULT ORiNAct(){
-		std::cout<<"DCOMの初期化"<<std::endl;
+	
+	if (Activated != 0){
+		return S_OK;
+	}
+
+	std::cout<<"DCOMの初期化"<<std::endl;
 	CoInitialize(0);
 
 	//CaoEngineの生成
@@ -86,7 +93,12 @@ HRESULT ORiNAct(){
 	//BSTRに複製
 	MultiByteToWideChar(CP_ACP,0,lstr,strlen(lstr),bstr_option,bstrlen);
 
-	hr = pWs->AddController(CComBSTR(ControllerName),CComBSTR(CaoProvName),CComBSTR(L""),bstr_option,&pCtrl);
+	std::cout << "ControllerName:" << ControllerName << std::endl;
+	std::cout << "CaoProvName:" << CaoProvName << std::endl;
+	std::cout << "Option:" << lstr << std::endl;
+
+	//hr = pWs->AddController(CComBSTR(ControllerName),CComBSTR(CaoProvName),CComBSTR(L""),bstr_option,&pCtrl);
+	hr = pWs->AddController(CComBSTR(ControllerName), CComBSTR(CaoProvName), CComBSTR(L""), CComBSTR(L"@EventDisable=true,Server=192.168.0.10,Timeout=50000"), &pCtrl);
 	if(FAILED(hr)){
 		std::cout.setf(std::ios::hex,std::ios::basefield);
 		std::cout.setf(std::ios::showbase);
@@ -96,6 +108,7 @@ HRESULT ORiNAct(){
 
 	//CaoProvRobotオブジェクトの生成
 	std::cout<<"CaoProvRobotオブジェクトの生成"<<std::endl;
+	std::cout << "RobotName:" << RobotName << std::endl;
 	hr = pCtrl->AddRobot(CComBSTR(RobotName),CComBSTR(L""),&pRobot);
 	if(FAILED(hr)){
 		std::cout.setf(std::ios::hex,std::ios::basefield);
@@ -103,13 +116,59 @@ HRESULT ORiNAct(){
 		std::cout<<"【失敗】: "<<hr<<std::endl;
 		return S_FALSE;
 	}
-		return S_OK;
+
+	/* takearm (RC8 only) */
+	if(strcmp(CaoProvName,"CaoProv.RC8") == 0){
+	{
+		SAFEARRAY*			psa;
+		SAFEARRAYBOUND		rgb[1];
+		long				*pVarData;
+		CComVariant			pData, pResult;
+
+		if (pRobot){
+			rgb[0].cElements = 2;
+			rgb[0].lLbound = 0;
+			if (psa = SafeArrayCreate(VT_I4, 1, rgb)){
+				hr = SafeArrayAccessData(psa, (void **)&pVarData);
+				if (SUCCEEDED(hr)){
+					pVarData[0] = 0L;
+					pVarData[1] = 1L;
+
+					pData.parray = psa;
+					pData.vt = VT_ARRAY | VT_I4;
+
+					SafeArrayUnaccessData(psa);
+				}
+			}
+			hr = pRobot->Execute(CComBSTR(L"Takearm"), pData, &pResult);
+			if (FAILED(hr)) {
+				std::cout << "【失敗】: " << hr << std::endl;
+				return S_FALSE;
+			}
+			Activated = 1;
+		}
+	}
+
+	return S_OK;
 }
 
 HRESULT ORiNDeact(){
 	//オブジェクトの解放
-	std::cout<<"オブジェクトの解放"<<std::endl;
-	
+	std::cout << "オブジェクトの解放" << std::endl;
+
+	if(strcmp(CaoProvName,"CaoProv.RC8") == 0){
+		// givearm (RC8 only)
+		HRESULT				hr = E_FAIL;
+		CComVariant			pData, pResult;
+
+		if (pRobot){
+			hr = pRobot->Execute(CComBSTR(L"Givearm"), pData, &pResult);
+			if (FAILED(hr)) {
+				std::cout << "【失敗】: " << hr << std::endl;
+			}
+		}
+	}
+
 	//解放処理
 	if(pRobot) pRobot->Release();
 	if(pCtrl) pCtrl->Release();
@@ -121,15 +180,15 @@ HRESULT ORiNDeact(){
 	std::cout<<"DCOMの終了処理"<<std::endl;
 	CoUninitialize();
 
-		return S_OK;
-	}
+	return S_OK;
+}
 
 HRESULT ORiNInit(){
 //XMLファイルの読み込み
-	//std::cout<<"DCOMの初期化"<<std::endl;
+	std::cout<<"DCOMの初期化"<<std::endl;
 	CoInitialize(0);
 	//CaoEngineの生成
-	//std::cout<<"CaoEngineの生成"<<std::endl;
+	std::cout<<"CaoEngineの生成"<<std::endl;
 	hr = CoCreateInstance(CLSID_CaoEngine,NULL,CLSCTX_LOCAL_SERVER,IID_ICaoEngine,(void **)&pEng);
 	if(FAILED(hr)){
 		std::cout.setf(std::ios::hex,std::ios::basefield);
@@ -138,7 +197,7 @@ HRESULT ORiNInit(){
 		return S_FALSE;
 	}
 	//CaoWorkspaceコレクションの取得
-	//std::cout<<"CaoWorkspaceコレクションの取得"<<std::endl;
+	std::cout<<"CaoWorkspaceコレクションの取得"<<std::endl;
 	hr = pEng->get_Workspaces(&pWss);
 	if(FAILED(hr)){
 		std::cout.setf(std::ios::hex,std::ios::basefield);
@@ -147,7 +206,7 @@ HRESULT ORiNInit(){
 		return S_FALSE;
 	}
 	//CaoWorkspaceの取得
-	//std::cout<<"CaoWorkspaceの取得"<<std::endl;
+	std::cout<<"CaoWorkspaceの取得"<<std::endl;
 	hr = pWss->Item(CComVariant(0L), &pWs);
 	if(FAILED(hr)){
 		std::cout.setf(std::ios::hex,std::ios::basefield);
@@ -156,7 +215,7 @@ HRESULT ORiNInit(){
 		return S_FALSE;
 	}
 	//CaoControllerの生成
-	//std::cout<<"CaoControllerの生成"<<std::endl;
+	std::cout<<"CaoControllerの生成"<<std::endl;
 	hr = pWs->AddController(CComBSTR(L"ControllerName"),CComBSTR(L"CaoProv.CRD"),CComBSTR(L""),CComBSTR(XMLFilePath),&pCtrl);
 	if(FAILED(hr)){
 		std::cout.setf(std::ios::hex,std::ios::basefield);
@@ -167,6 +226,7 @@ HRESULT ORiNInit(){
 	}
 //CaoProvider
 	//ControllerName
+	std::cout << "ControllerName" << std::endl;
 	hr = pCtrl->AddVariable(CComBSTR(L"ControllerName"),CComBSTR(L""),&pVar);
 	if(FAILED(hr)){
 			std::cout.setf(std::ios::hex,std::ios::basefield);
@@ -187,6 +247,7 @@ HRESULT ORiNInit(){
 	VariantClear(&variant_pVal);
 	if(pVar) pVar->Release();
 	//CaoProvName
+	std::cout << "CaoProvName" << std::endl;
 	hr = pCtrl->AddVariable(CComBSTR(L"CaoProvName"),CComBSTR(L""),&pVar);
 	if(FAILED(hr)){
 			std::cout.setf(std::ios::hex,std::ios::basefield);
@@ -207,6 +268,7 @@ HRESULT ORiNInit(){
 	VariantClear(&variant_pVal);
 	if(pVar) pVar->Release();
 	//ConnectionParam
+	std::cout << "ConnectionParam" << std::endl;
 	hr = pCtrl->AddVariable(CComBSTR(L"ConnectionParam"),CComBSTR(L""),&pVar);
 	if(FAILED(hr)){
 			std::cout.setf(std::ios::hex,std::ios::basefield);
@@ -227,6 +289,7 @@ HRESULT ORiNInit(){
 	VariantClear(&variant_pVal);
 	if(pVar) pVar->Release();
 	//Manufactur
+	std::cout << "Manufacture" << std::endl;
 	hr = pCtrl->AddVariable(CComBSTR(L"Manufactur"),CComBSTR(L""),&pVar);
 	if(FAILED(hr)){
 			std::cout.setf(std::ios::hex,std::ios::basefield);

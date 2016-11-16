@@ -27,7 +27,7 @@ static const char* rtm_orin_converter_crd_spec[] =
     "language",          "C++",
     "lang_type",         "compile",
     // Configuration variables
-    "conf.default.Port", "com:1",
+    "conf.default.Port", "192.168.0.10",
     "conf.default.Timeout", "50000",
     "conf.default.XMLFilePath", "Path=C:/Sample.xml",
     // Widget
@@ -84,7 +84,7 @@ RTC::ReturnCode_t RTM_ORiN_Converter_CRD::onInitialize()
 
   // <rtc-template block="bind_config">
   // Bind variables and configuration variable
-  bindParameter("Port", m_Port, "com:1");
+  bindParameter("Port", m_Port, "192.168.0.10");
   bindParameter("Timeout", m_Timeout, "50000");
   bindParameter("XMLFilePath", m_XMLFilePath, "Path=C:/Sample.xml");
   
