@@ -2,58 +2,52 @@
 #include "defcommand.h"
 #include "CAO_i.c"
 
-	HRESULT hr = S_OK;
-	ICaoEngine* pEng = NULL;
-	ICaoWorkspaces* pWss = NULL;
-	ICaoWorkspace* pWs = NULL;
-	ICaoController* pCtrl = NULL;
-	ICaoRobot* pRobot = NULL;
-	ICaoVariable* pPosJ;
-	ICaoVariable* pPosC;
-	ICaoVariable* pServo;
-	ICaoVariable* pSPEED;
-	ICaoVariable* pJSPEED;
-	ICaoVariable* pVar = NULL;
-	LPSTR lstr;
-	int bstrlen;
-	char char_buffer[100];
-	char char_option[100];
-	BSTR bstr_option;
-	VARIANT variant_param;
-	VARIANT variant_pose;
-	VARIANT variant_pVal;
-	char* PortParam = "";
-	char* XMLFilePath = "";
-	long timeout = 50000;
-	double JUpperLimit[7] = { 10000.0 , 10000.0 , 10000.0 , 10000.0 , 10000.0 , 10000.0 , 10000.0 };
-	double JLowerLimit[7] = {-10000.0 ,-10000.0 ,-10000.0 ,-10000.0 ,-10000.0 ,-10000.0 ,-10000.0 };
-	double CUpperLimit[3] = { 10000.0 , 10000.0 , 10000.0 };
-	double CLowerLimit[3] = {-10000.0 ,-10000.0 ,-10000.0 };
-	double JMinAccelTime = 1;
-	double CMinAccelTime = 1;
-	double JHomePoint[7];
-	double JPoint[7];
-	double CPoint[6];
-	double CPointR[6];
-	double CPointT[6];
-	int CFlag;
-	int CFlagR;
-	int CFlagT;
+HRESULT hr = S_OK;
+ICaoEngine* pEng = NULL;
+ICaoWorkspaces* pWss = NULL;
+ICaoWorkspace* pWs = NULL;
+ICaoController* pCtrl = NULL;
+ICaoRobot* pRobot = NULL;
+ICaoVariable* pPosJ;
+ICaoVariable* pPosC;
+ICaoVariable* pServo;
+ICaoVariable* pSPEED;
+ICaoVariable* pJSPEED;
+ICaoVariable* pVar = NULL;
+LPSTR lstr;
+int bstrlen;
+char char_buffer[100];
+char char_option[100];
+BSTR bstr_option;
+VARIANT variant_param;
+VARIANT variant_pose;
+VARIANT variant_pVal;
+char* PortParam = "";
+char* XMLFilePath = "";
+long timeout = 50000;
+double JUpperLimit[7] = { 10000.0 , 10000.0 , 10000.0 , 10000.0 , 10000.0 , 10000.0 , 10000.0 };
+double JLowerLimit[7] = {-10000.0 ,-10000.0 ,-10000.0 ,-10000.0 ,-10000.0 ,-10000.0 ,-10000.0 };
+double CUpperLimit[3] = { 10000.0 , 10000.0 , 10000.0 };
+double CLowerLimit[3] = {-10000.0 ,-10000.0 ,-10000.0 };
+double JMinAccelTime = 1;
+double CMinAccelTime = 1;
+double JHomePoint[7];
+double JPoint[7];
+double CPoint[6];
+double CPointR[6];
+double CPointT[6];
+int CFlag;
+int CFlagR;
+int CFlagT;
 	
-	char Activated = 0;
 
-
-HRESULT ORiNAct(){
-	
-	if (Activated != 0){
-		return S_OK;
-	}
-
-	std::cout<<"DCOM‚Ì‰Šú‰»"<<std::endl;
+HRESULT ORiNAct()
+{	
+	std::cout << "DCOM‚Ì‰Šú‰»" << std::endl;
 	CoInitialize(0);
 
 	//CaoEngine‚Ì¶¬
-	std::cout<<"CaoEngine‚Ì¶¬"<<std::endl;
+	std::cout << "CaoEngine‚Ì¶¬" << std::endl;
 	hr = CoCreateInstance(CLSID_CaoEngine,NULL,CLSCTX_LOCAL_SERVER,IID_ICaoEngine,(void **)&pEng);
 	if(FAILED(hr)){
 		std::cout.setf(std::ios::hex,std::ios::basefield);
@@ -118,8 +112,7 @@ HRESULT ORiNAct(){
 	}
 
 	/* takearm (RC8 only) */
-	if(strcmp(CaoProvName,"CaoProv.RC8") == 0){
-	{
+	if(strcmp(CaoProvName,"CaoProv.RC8") == 0) {
 		SAFEARRAY*			psa;
 		SAFEARRAYBOUND		rgb[1];
 		long				*pVarData;
@@ -145,7 +138,6 @@ HRESULT ORiNAct(){
 				std::cout << "yŽ¸”sz: " << hr << std::endl;
 				return S_FALSE;
 			}
-			Activated = 1;
 		}
 	}
 
